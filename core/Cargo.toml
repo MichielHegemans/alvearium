@@ -6,7 +6,7 @@ edition = "2021"
 
 [dependencies]
 #jsonrpsee = { version = "0.15.1", features = ["full"] }
-jsonrpsee = { git = "https://github.com/paritytech/jsonrpsee.git", features = ["full"], branch = "master" }
+jsonrpsee = { git = "https://github.com/paritytech/jsonrpsee.git", features = ["full"], rev = "d390823" }
 tokio = { version = "1", features = ["full"] }
 anyhow = "1.0.65"
 tracing = "0.1.36"
