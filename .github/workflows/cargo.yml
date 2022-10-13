@@ -6,6 +6,7 @@ on:
     branches:
       - main
 
+name: Build & Test
 jobs:
   build_and_test:
     name: Rust Project
