@@ -23,7 +23,7 @@ async fn main() -> anyhow::Result<()> {
 
     match HttpClientBuilder::default().build("https://api.hive.blog:443") {
         Ok(client) => {
-            let props = get_tx_sign_properties(&client).await?;
+            let props = get_tx_sign_properties(&client, BlockchainMode::Reversible).await?;
             let trx = UnsignedCondenserTransaction::new(
                 &props,
                 vec![CondenserOperation::CustomJson(CustomJson {
@@ -32,7 +32,6 @@ async fn main() -> anyhow::Result<()> {
                     required_posting_auths: vec![],
                     json: "{}".to_owned(),
                 })],
-                BlockchainMode::Reversible,
             )
             .unwrap();
 

@@ -64,15 +64,10 @@ impl UnsignedCondenserTransaction {
     pub fn new(
         properties: &TxSignProperties,
         operations: Vec<CondenserOperation>,
-        mode: BlockchainMode,
     ) -> Result<Self, TransactionCreateError> {
-        let marker = match mode {
-            BlockchainMode::Irreversible => &properties.irreversible,
-            BlockchainMode::Reversible => &properties.latest,
-        };
-
-        let ref_block_num = marker.ref_block_num;
-        let prefix = decode_hex(&marker.ref_block_prefix).map_err(TransactionCreateError::from)?;
+        let ref_block_num = properties.ref_block_num;
+        let prefix =
+            decode_hex(&properties.ref_block_prefix).map_err(TransactionCreateError::from)?;
         let mut prefix_bytes: [u8; 4] = Default::default();
         prefix_bytes.copy_from_slice(&prefix[4..8]);
         let ref_block_prefix = u32::from_le_bytes(prefix_bytes);
