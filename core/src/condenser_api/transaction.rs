@@ -1,14 +1,13 @@
+use std::num::ParseIntError;
+use chrono::{DateTime, Duration, Utc};
+use hex_literal::hex;
+use serde::Serialize;
+use core_derive::HiveEncode;
+use crate::condenser_api::operation::Operation;
 use crate::crypto::private_key::PrivateKey;
 use crate::database_api::TxSignProperties;
-use crate::de::deserialize_hive_time;
 use crate::enc::encode_to_vec;
-use crate::operation::{CondenserOperation, Operation};
 use crate::ser::serialize_hive_time;
-use chrono::{DateTime, Duration, Utc};
-use core_derive::HiveEncode;
-use hex_literal::hex;
-use serde::{Deserialize, Serialize};
-use std::num::ParseIntError;
 
 const DEFAULT_CHAIN_ID: [u8; 32] = hex!(
     "beeab0de" "00000000"
@@ -60,10 +59,10 @@ fn decode_hex(s: &str) -> Result<Vec<u8>, DecodeHexError> {
     }
 }
 
-impl UnsignedCondenserTransaction {
+impl UnsignedTransaction {
     pub fn new(
         properties: &TxSignProperties,
-        operations: Vec<CondenserOperation>,
+        operations: Vec<Operation>,
     ) -> Result<Self, TransactionCreateError> {
         let ref_block_num = properties.ref_block_num;
         let prefix =
@@ -72,7 +71,7 @@ impl UnsignedCondenserTransaction {
         prefix_bytes.copy_from_slice(&prefix[4..8]);
         let ref_block_prefix = u32::from_le_bytes(prefix_bytes);
 
-        Ok(UnsignedCondenserTransaction {
+        Ok(UnsignedTransaction {
             operations,
             ref_block_num: ref_block_num as u16,
             ref_block_prefix,
@@ -81,7 +80,7 @@ impl UnsignedCondenserTransaction {
         })
     }
 
-    pub fn sign(self, key: &PrivateKey, chain_id: Option<[u8; 32]>) -> CondenserTransaction {
+    pub fn sign(self, key: &PrivateKey, chain_id: Option<[u8; 32]>) -> Transaction {
         let v = encode_to_vec(&self).unwrap();
         let signature =
             key.sign_ecdsa_canonical([chain_id.unwrap_or(DEFAULT_CHAIN_ID).as_ref(), &v].concat());
@@ -93,7 +92,7 @@ impl UnsignedCondenserTransaction {
         buffer[1..].clone_from_slice(&buf);
         let signatures = vec![hex::encode(&buffer)];
 
-        CondenserTransaction {
+        Transaction {
             ref_block_num: self.ref_block_num,
             ref_block_prefix: self.ref_block_prefix,
             signatures,
@@ -104,23 +103,9 @@ impl UnsignedCondenserTransaction {
     }
 }
 
-#[derive(Serialize, Debug, HiveEncode)]
-#[hive_encode(crate = "crate")]
-pub struct UnsignedCondenserTransaction {
-    pub ref_block_num: u16,
-    pub ref_block_prefix: u32,
-    #[serde(
-        deserialize_with = "deserialize_hive_time",
-        serialize_with = "serialize_hive_time"
-    )]
-    pub expiration: DateTime<Utc>,
-    pub operations: Vec<CondenserOperation>,
-    pub extensions: Vec<()>,
-}
-
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Serialize, Debug)]
 pub struct Transaction {
-    pub ref_block_num: u32,
+    pub ref_block_num: u16,
     pub ref_block_prefix: u32,
     #[serde(
         deserialize_with = "deserialize_hive_time",
@@ -132,8 +117,9 @@ pub struct Transaction {
     pub extensions: Vec<()>,
 }
 
-#[derive(Serialize, Debug)]
-pub struct CondenserTransaction {
+#[derive(Serialize, Debug, HiveEncode)]
+#[hive_encode(crate = "crate")]
+pub struct UnsignedTransaction {
     pub ref_block_num: u16,
     pub ref_block_prefix: u32,
     #[serde(
@@ -141,7 +127,6 @@ pub struct CondenserTransaction {
         serialize_with = "serialize_hive_time"
     )]
     pub expiration: DateTime<Utc>,
-    pub operations: Vec<CondenserOperation>,
-    pub signatures: Vec<String>,
+    pub operations: Vec<Operation>,
     pub extensions: Vec<()>,
 }

@@ -2,10 +2,12 @@ use alvearium_core::condenser_api::broadcast_transaction;
 use alvearium_core::crypto::private_key::PrivateKey;
 use alvearium_core::crypto::FromWif;
 use alvearium_core::database_api::get_tx_sign_properties;
-use alvearium_core::operation::{CondenserOperation, CustomJson};
-use alvearium_core::transaction::{BlockchainMode, UnsignedCondenserTransaction};
+use alvearium_core::condenser_api::operation::Operation;
+use alvearium_core::operation::CustomJson;
+use alvearium_core::condenser_api::transaction::UnsignedTransaction;
 use jsonrpsee::http_client::HttpClientBuilder;
 use tracing_subscriber::util::SubscriberInitExt;
+use alvearium_core::condenser_api::transaction::BlockchainMode;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -24,9 +26,9 @@ async fn main() -> anyhow::Result<()> {
     match HttpClientBuilder::default().build("https://api.hive.blog:443") {
         Ok(client) => {
             let props = get_tx_sign_properties(&client, BlockchainMode::Reversible).await?;
-            let trx = UnsignedCondenserTransaction::new(
+            let trx = UnsignedTransaction::new(
                 &props,
-                vec![CondenserOperation::CustomJson(CustomJson {
+                vec![Operation::CustomJson(CustomJson {
                     id: "alvearium-core-test".to_owned(),
                     required_auths: vec![hive_name.to_string()],
                     required_posting_auths: vec![],

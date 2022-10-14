@@ -1,8 +1,8 @@
 pub mod types;
+pub mod block;
+pub mod operation;
+pub mod transaction;
 
-use crate::block_api::types::{
-    Block, BlockHeader, BlockHeaderResponse, BlockRangeResponse, BlockResponse,
-};
 use jsonrpsee::core::client::ClientT;
 use jsonrpsee::core::traits::ToRpcParams;
 use jsonrpsee::core::Error;
@@ -10,6 +10,7 @@ use jsonrpsee::http_client::HttpClient;
 use serde_json::json;
 use serde_json::value::RawValue;
 use std::ops::Range;
+use block::{Block, BlockHeader, BlockHeaderResponse, BlockRangeResponse, BlockResponse};
 
 struct BlockRange(Range<u32>);
 struct BlockNumber(u32);
