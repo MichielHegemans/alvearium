@@ -8,8 +8,8 @@ pub mod types;
 mod de;
 pub mod enc;
 pub mod operation;
-mod ser;
 mod params;
+mod ser;
 
 pub use enc::HiveEncode;
 pub use enc::HiveEncoder;
