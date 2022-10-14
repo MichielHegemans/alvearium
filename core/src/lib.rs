@@ -9,6 +9,7 @@ mod de;
 pub mod enc;
 pub mod operation;
 mod ser;
+mod params;
 
 pub use enc::HiveEncode;
 pub use enc::HiveEncoder;

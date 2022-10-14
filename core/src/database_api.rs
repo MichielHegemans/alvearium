@@ -2,10 +2,8 @@ use crate::block_api::get_block;
 use crate::types::DynamicGlobalProperties;
 use chrono::{DateTime, Utc};
 use jsonrpsee::core::client::ClientT;
-use jsonrpsee::core::traits::ToRpcParams;
-use jsonrpsee::core::Error;
 use jsonrpsee::http_client::HttpClient;
-use serde_json::value::RawValue;
+use crate::params::EmptyObjectParams;
 
 pub struct BlockMarker {
     pub ref_block_num: u32,
@@ -16,14 +14,6 @@ pub struct TxSignProperties {
     pub latest: BlockMarker,
     pub irreversible: BlockMarker,
     pub time: DateTime<Utc>,
-}
-
-struct EmptyObjectParams;
-
-impl ToRpcParams for EmptyObjectParams {
-    fn to_rpc_params(self) -> Result<Option<Box<RawValue>>, Error> {
-        Ok(Some(RawValue::from_string("{}".to_owned())?))
-    }
 }
 
 pub async fn get_dynamic_global_properties(
