@@ -35,7 +35,7 @@ async fn main() -> anyhow::Result<()> {
             )
             .unwrap();
 
-            let signed = trx.sign(&private_key);
+            let signed = trx.sign(&private_key, None);
 
             match broadcast_transaction(&client, &vec![signed]).await {
                 Ok(res) => println!("{:?}", res),

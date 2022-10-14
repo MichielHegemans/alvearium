@@ -81,9 +81,10 @@ impl UnsignedCondenserTransaction {
         })
     }
 
-    pub fn sign(self, key: &PrivateKey) -> CondenserTransaction {
+    pub fn sign(self, key: &PrivateKey, chain_id: Option<[u8; 32]>) -> CondenserTransaction {
         let v = encode_to_vec(&self).unwrap();
-        let signature = key.sign_ecdsa_canonical([DEFAULT_CHAIN_ID.as_ref(), &v].concat());
+        let signature =
+            key.sign_ecdsa_canonical([chain_id.unwrap_or(DEFAULT_CHAIN_ID).as_ref(), &v].concat());
         let (recovery_id, buf) = signature.serialize_compact();
         let mut buffer: [u8; 65] = [0; 65];
 
