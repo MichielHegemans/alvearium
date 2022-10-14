@@ -24,7 +24,7 @@ pub async fn get_global_dynamic_properties() -> Result<DynamicGlobalProperties> 
     let client = create_default_client("https://api.hive.blog:443").map_err(|_| {
         Error::new(
             Status::GenericFailure,
-            format!("Failed to create HttpClient"),
+            "Failed to create HttpClient".to_owned(),
         )
     })?;
 
@@ -33,7 +33,7 @@ pub async fn get_global_dynamic_properties() -> Result<DynamicGlobalProperties> 
         .map_err(|_| {
             Error::new(
                 Status::GenericFailure,
-                format!("Failed to get Dynamic Global Properties"),
+                "Failed to get Dynamic Global Properties".to_owned(),
             )
         })?;
 
