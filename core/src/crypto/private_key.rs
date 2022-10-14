@@ -115,10 +115,10 @@ impl IntoWif for PrivateKey {
 }
 
 impl PrivateKey {
-    pub fn from_key(key: secp256k1::SecretKey, network_id: u8) -> Self {
+    pub fn from_key(key: secp256k1::SecretKey, network_id: Option<u8>) -> Self {
         Self {
             key,
-            network_id,
+            network_id: network_id.unwrap_or(NETWORK_ID),
             compressed: false,
         }
     }
@@ -232,7 +232,7 @@ mod tests {
         let secp = Secp256k1::new();
         let network_id: u8 = 0x42;
         let (key, _) = secp.generate_keypair(&mut OsRng);
-        let key = PrivateKey::from_key(key, network_id);
+        let key = PrivateKey::from_key(key, Some(network_id));
 
         let message = sha256("Hello dear world");
         let signature = key.sign_ecdsa_canonical(message);

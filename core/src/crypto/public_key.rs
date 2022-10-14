@@ -3,6 +3,8 @@ use secp256k1::Message;
 use std::fmt::Debug;
 
 use crate::crypto::{ripemd160, sha256, FromWif, IntoWif, DEFAULT_ADDRESS_PREFIX};
+use crate::enc::{encode_without_size, EncodeError};
+use crate::{HiveEncode, HiveEncoder};
 
 #[derive(Debug)]
 pub struct PublicKey {
@@ -106,6 +108,15 @@ pub enum PrivateKeyBuildError {
     InvalidNetworkId(u8),
     Checksum([u8; 4], [u8; 4]),
     InvalidCompressionByte(u8),
+}
+
+impl HiveEncode for PublicKey {
+    fn encode<E: HiveEncoder>(&self, encoder: &mut E) -> Result<(), EncodeError> {
+        // Needs to be a 33 byte encode without length
+        encode_without_size(&self.key.serialize(), encoder)?;
+
+        Ok(())
+    }
 }
 
 #[cfg(test)]

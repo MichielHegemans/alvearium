@@ -283,3 +283,24 @@ where
 
     Ok(encoder.into_writer().collect())
 }
+
+impl<T1, T2> HiveEncode for (T1, T2)
+where
+    T1: HiveEncode,
+    T2: HiveEncode,
+{
+    fn encode<E: HiveEncoder>(&self, encoder: &mut E) -> Result<(), EncodeError> {
+        T1::encode(&self.0, encoder)?;
+        T2::encode(&self.1, encoder)?;
+
+        Ok(())
+    }
+}
+
+pub fn encode_without_size<T: HiveEncode, E: HiveEncoder, const N: usize>(data: &[T; N], encoder: &mut E) -> Result<(), EncodeError> {
+    for x in data {
+        HiveEncode::encode(x, encoder)?;
+    }
+
+    Ok(())
+}

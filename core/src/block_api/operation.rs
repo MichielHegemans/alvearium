@@ -1,12 +1,12 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use crate::operation::{Custom, CustomJson, VoteOperation};
+use crate::operation::{Custom, CustomJson, Vote};
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(tag = "type", content = "value")]
 pub enum Operation {
     #[serde(rename = "vote_operation")]
-    Vote(VoteOperation),
+    Vote(Vote),
     #[serde(rename = "comment_operation")]
     Comment(Value),
     #[serde(rename = "transfer_operation")]

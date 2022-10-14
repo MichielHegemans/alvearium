@@ -1,8 +1,10 @@
 use crate::de::deserialize_hive_time;
 use chrono::{DateTime, Utc};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
+use core_derive::HiveEncode;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, HiveEncode)]
+#[hive_encode(crate = "crate")]
 pub struct Supply {
     pub amount: String,
     pub precision: u32,
