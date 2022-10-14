@@ -2,5 +2,8 @@
 members = [
     "core",
     "core-derive",
-    "alvearium-js"
+    "alvearium-js",
 ]
+
+[profile.release]
+lto = true
