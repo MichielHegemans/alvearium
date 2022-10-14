@@ -171,25 +171,11 @@ fn encode_utf8(writer: &mut impl Writer, c: char) -> Result<(), EncodeError> {
     writer.write(&buf)
 }
 
-enum CastError {
-    Overflow,
-    Underflow,
-}
-
-fn cast_i64_to_u32(src: i64) -> Result<u32, CastError> {
-    Err(if src < u32::MIN as i64 {
-        CastError::Underflow
-    } else if src > u32::MAX as i64 {
-        CastError::Overflow
-    } else {
-        return Ok(src as u32);
-    })
-}
-
 impl HiveEncode for DateTime<Utc> {
     fn encode<E: HiveEncoder>(&self, encoder: &mut E) -> Result<(), EncodeError> {
         HiveEncode::encode(
-            &cast_i64_to_u32(self.timestamp()).map_err(|_| EncodeError::Error)?,
+            // TODO: Will start to fail once we move out of u32 space (2038)
+            &(self.timestamp() as u32),
             encoder,
         )
     }
