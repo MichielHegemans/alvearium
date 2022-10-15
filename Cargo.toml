@@ -2,8 +2,8 @@
 members = [
     "core",
     "core-derive",
-    "alvearium-js",
 ]
 
-[profile.release]
-lto = true
+exclude = [
+    "alvearium-js"
+]
