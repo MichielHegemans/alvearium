@@ -1,7 +1,7 @@
-use chrono::{DateTime, Utc};
-use serde::Deserialize;
 use crate::block_api::transaction::Transaction;
 use crate::de::deserialize_hive_time;
+use chrono::{DateTime, Utc};
+use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 pub struct BlockResponse {

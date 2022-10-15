@@ -10,10 +10,14 @@ pub mod operation;
 mod params;
 mod ser;
 
-use jsonrpsee::http_client::{HttpClient, HttpClientBuilder};
 pub use enc::HiveEncode;
 pub use enc::HiveEncoder;
+use jsonrpsee::http_client::HttpClientBuilder;
 
-pub fn create_default_client(target: impl AsRef<str>) -> Result<HttpClient, jsonrpsee::core::Error> {
+pub use jsonrpsee::http_client::HttpClient;
+
+pub fn create_default_client(
+    target: impl AsRef<str>,
+) -> Result<HttpClient, jsonrpsee::core::Error> {
     HttpClientBuilder::default().build(target)
 }

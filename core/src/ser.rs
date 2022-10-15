@@ -1,7 +1,7 @@
+use crate::crypto::public_key::PublicKey;
+use crate::crypto::IntoWif;
 use chrono::{DateTime, Utc};
 use serde::{Serialize, Serializer};
-use crate::crypto::IntoWif;
-use crate::crypto::public_key::PublicKey;
 
 pub fn serialize_hive_time<S>(date_time: &DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
 where
@@ -12,7 +12,10 @@ where
 }
 
 impl Serialize for PublicKey {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
         serializer.serialize_str(&self.to_wif())
     }
 }

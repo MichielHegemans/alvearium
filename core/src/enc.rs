@@ -297,7 +297,10 @@ where
     }
 }
 
-pub fn encode_without_size<T: HiveEncode, E: HiveEncoder, const N: usize>(data: &[T; N], encoder: &mut E) -> Result<(), EncodeError> {
+pub fn encode_without_size<T: HiveEncode, E: HiveEncoder, const N: usize>(
+    data: &[T; N],
+    encoder: &mut E,
+) -> Result<(), EncodeError> {
     for x in data {
         HiveEncode::encode(x, encoder)?;
     }

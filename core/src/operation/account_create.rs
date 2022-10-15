@@ -1,7 +1,7 @@
-use core_derive::HiveEncode;
-use serde::{Deserialize, Serialize};
 use crate::crypto::public_key::PublicKey;
 use crate::operation::{Asset, AuthorityType};
+use core_derive::HiveEncode;
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug, HiveEncode)]
 #[hive_encode(crate = "crate")]

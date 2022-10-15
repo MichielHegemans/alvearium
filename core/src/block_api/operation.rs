@@ -1,6 +1,6 @@
+use crate::operation::{Custom, CustomJson, Vote};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use crate::operation::{Custom, CustomJson, Vote};
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(tag = "type", content = "value")]

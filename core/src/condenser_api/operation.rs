@@ -1,10 +1,10 @@
+use crate::enc::{EncodeError, LEB128};
+use crate::operation::{AccountCreate, AccountCreateWithDelegation, Custom, CustomJson};
+use crate::{HiveEncode, HiveEncoder};
 use core::option::Option::Some;
 use core::result::Result;
 use core::result::Result::Ok;
-use serde::ser::{Serialize, Serializer, SerializeSeq};
-use crate::{HiveEncode, HiveEncoder};
-use crate::enc::{EncodeError, LEB128};
-use crate::operation::{AccountCreate, AccountCreateWithDelegation, Custom, CustomJson};
+use serde::ser::{Serialize, SerializeSeq, Serializer};
 
 #[derive(Debug)]
 pub enum Operation {

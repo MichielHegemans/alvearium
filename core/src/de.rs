@@ -1,11 +1,11 @@
+use crate::crypto::public_key::PublicKey;
+use crate::crypto::FromWif;
 use chrono::{DateTime, Utc};
 use core::fmt::Formatter;
 use core::result::Result;
 use serde::de::{Deserializer, Error, Visitor};
-use std::str::FromStr;
 use serde::Deserialize;
-use crate::crypto::FromWif;
-use crate::crypto::public_key::PublicKey;
+use std::str::FromStr;
 
 pub fn deserialize_hive_time<'de, D>(deserializer: D) -> Result<DateTime<Utc>, D::Error>
 where
@@ -44,7 +44,10 @@ where
             formatter.write_str("a public key in WIF format")
         }
 
-        fn visit_str<E>(self, v: &str) -> Result<Self::Value, E> where E: Error {
+        fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+        where
+            E: Error,
+        {
             PublicKey::from_wif(v).map_err(|_| E::custom("Error building public key from WIF"))
         }
     }
@@ -53,7 +56,10 @@ where
 }
 
 impl<'de> Deserialize<'de> for PublicKey {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error> where D: Deserializer<'de> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
         deserialize_public_key(deserializer)
     }
 }
