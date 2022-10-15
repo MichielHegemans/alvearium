@@ -236,6 +236,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { getGlobalDynamicProperties } = nativeBinding
+const { HiveClient, getDynamicGlobalProperties } = nativeBinding
 
-module.exports.getGlobalDynamicProperties = getGlobalDynamicProperties
+module.exports.HiveClient = HiveClient
+module.exports.getDynamicGlobalProperties = getDynamicGlobalProperties
