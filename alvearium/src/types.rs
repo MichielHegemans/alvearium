@@ -1,6 +1,6 @@
 use crate::de::deserialize_hive_time;
+use alvearium_derive::HiveEncode;
 use chrono::{DateTime, Utc};
-use core_derive::HiveEncode;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug, HiveEncode)]

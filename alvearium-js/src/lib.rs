@@ -3,16 +3,14 @@
 #[macro_use]
 extern crate napi_derive;
 
-use alvearium_core::condenser_api::broadcast_transaction;
-use alvearium_core::condenser_api::operation::Operation;
-use alvearium_core::condenser_api::transaction::{
-    BlockchainMode, UnsignedTransaction,
-};
-use alvearium_core::create_default_client;
-use alvearium_core::crypto::private_key::PrivateKey;
-use alvearium_core::database_api::get_tx_sign_properties;
-use alvearium_core::HttpClient;
-use alvearium_core::crypto::FromWif;
+use alvearium::condenser_api::broadcast_transaction;
+use alvearium::condenser_api::operation::Operation;
+use alvearium::condenser_api::transaction::{BlockchainMode, UnsignedTransaction};
+use alvearium::create_default_client;
+use alvearium::crypto::private_key::PrivateKey;
+use alvearium::crypto::FromWif;
+use alvearium::database_api::get_tx_sign_properties;
+use alvearium::HttpClient;
 use napi::bindgen_prelude::{Error, Result, Status};
 
 #[napi(js_name = "HiveClient")]
@@ -36,15 +34,14 @@ impl JsClient {
 
     #[napi]
     pub async fn get_dynamic_global_properties(&self) -> Result<DynamicGlobalProperties> {
-        let properties =
-            alvearium_core::database_api::get_dynamic_global_properties(&self.client)
-                .await
-                .map_err(|_| {
-                    Error::new(
-                        Status::GenericFailure,
-                        "Failed to get Dynamic Global Properties".to_owned(),
-                    )
-                })?;
+        let properties = alvearium::database_api::get_dynamic_global_properties(&self.client)
+            .await
+            .map_err(|_| {
+                Error::new(
+                    Status::GenericFailure,
+                    "Failed to get Dynamic Global Properties".to_owned(),
+                )
+            })?;
 
         Ok(properties.into())
     }
@@ -88,9 +85,9 @@ pub struct CustomJson {
     pub json: String,
 }
 
-impl Into<alvearium_core::operation::CustomJson> for CustomJson {
-    fn into(self) -> alvearium_core::operation::CustomJson {
-        alvearium_core::operation::CustomJson {
+impl Into<alvearium::operation::CustomJson> for CustomJson {
+    fn into(self) -> alvearium::operation::CustomJson {
+        alvearium::operation::CustomJson {
             id: self.id,
             required_auths: self.required_auths,
             required_posting_auths: self.required_posting_auths,
@@ -104,8 +101,8 @@ pub struct DynamicGlobalProperties {
     pub head_block_id: String,
 }
 
-impl From<alvearium_core::types::DynamicGlobalProperties> for DynamicGlobalProperties {
-    fn from(dgp: alvearium_core::types::DynamicGlobalProperties) -> Self {
+impl From<alvearium::types::DynamicGlobalProperties> for DynamicGlobalProperties {
+    fn from(dgp: alvearium::types::DynamicGlobalProperties) -> Self {
         Self {
             head_block_id: dgp.head_block_id,
         }
@@ -121,7 +118,7 @@ pub async fn get_dynamic_global_properties() -> Result<DynamicGlobalProperties> 
         )
     })?;
 
-    let properties = alvearium_core::database_api::get_dynamic_global_properties(&client)
+    let properties = alvearium::database_api::get_dynamic_global_properties(&client)
         .await
         .map_err(|_| {
             Error::new(

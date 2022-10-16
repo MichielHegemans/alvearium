@@ -10,7 +10,7 @@ pub struct ContainerAttributes {
 impl Default for ContainerAttributes {
     fn default() -> Self {
         Self {
-            crate_name: "::alvearium_core".to_string(),
+            crate_name: "::alvearium".to_string(),
             bounds: None,
             encode_bounds: None,
         }

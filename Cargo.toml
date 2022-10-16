@@ -1,7 +1,7 @@
 [workspace]
 members = [
-    "core",
-    "core-derive",
+    "alvearium",
+    "alvearium_derive",
 ]
 
 exclude = [

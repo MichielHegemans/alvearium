@@ -1,4 +1,4 @@
-use alvearium_core::condenser_api::get_version;
+use alvearium::database_api::get_version;
 use jsonrpsee::http_client::HttpClientBuilder;
 
 #[tokio::main]
@@ -7,7 +7,7 @@ async fn main() -> anyhow::Result<()> {
 
     let version = get_version(&client).await?;
 
-    println!("Condenser Api Version: {:?}", version);
+    println!("Database Api Version: {:?}", version);
 
     Ok(())
 }

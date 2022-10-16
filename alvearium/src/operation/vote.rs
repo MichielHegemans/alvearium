@@ -1,4 +1,4 @@
-use core_derive::HiveEncode;
+use alvearium_derive::HiveEncode;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug, HiveEncode)]

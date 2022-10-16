@@ -13,7 +13,7 @@ pub use vote::Vote;
 use crate::crypto::public_key::PublicKey;
 use crate::enc::{encode_without_size, EncodeError};
 use crate::{HiveEncode, HiveEncoder};
-use core_derive::HiveEncode;
+use alvearium_derive::HiveEncode;
 use serde::{Deserialize, Serialize, Serializer};
 use std::fmt::Display;
 use std::fmt::Formatter;

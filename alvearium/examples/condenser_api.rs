@@ -1,11 +1,11 @@
-use alvearium_core::condenser_api::broadcast_transaction;
-use alvearium_core::condenser_api::operation::Operation;
-use alvearium_core::condenser_api::transaction::BlockchainMode;
-use alvearium_core::condenser_api::transaction::UnsignedTransaction;
-use alvearium_core::crypto::private_key::PrivateKey;
-use alvearium_core::crypto::FromWif;
-use alvearium_core::database_api::{get_tx_sign_properties, TxSignProperties};
-use alvearium_core::operation::{AccountCreate, Asset, AssetSymbol, AuthorityType, CustomJson};
+use alvearium::condenser_api::broadcast_transaction;
+use alvearium::condenser_api::operation::Operation;
+use alvearium::condenser_api::transaction::BlockchainMode;
+use alvearium::condenser_api::transaction::UnsignedTransaction;
+use alvearium::crypto::private_key::PrivateKey;
+use alvearium::crypto::FromWif;
+use alvearium::database_api::{get_tx_sign_properties, TxSignProperties};
+use alvearium::operation::{AccountCreate, Asset, AssetSymbol, AuthorityType, CustomJson};
 use jsonrpsee::http_client::{HttpClient, HttpClientBuilder};
 use rand::rngs::OsRng;
 use secp256k1::{All, Secp256k1};
@@ -19,7 +19,7 @@ async fn submit_custom_json(client: &HttpClient, props: &TxSignProperties) -> an
     let trx = UnsignedTransaction::new(
         &props,
         vec![Operation::CustomJson(CustomJson {
-            id: "alvearium-core-test".to_owned(),
+            id: "alvearium-alvearium-test".to_owned(),
             required_auths: vec![hive_name.to_string()],
             required_posting_auths: vec![],
             json: "{}".to_owned(),

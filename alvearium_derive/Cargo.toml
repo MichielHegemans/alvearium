@@ -1,5 +1,5 @@
 [package]
-name = "core_derive"
+name = "alvearium_derive"
 version = "1.0.0"
 edition = "2021"
 

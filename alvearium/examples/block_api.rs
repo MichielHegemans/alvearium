@@ -1,4 +1,4 @@
-use alvearium_core::block_api::get_block_range;
+use alvearium::block_api::get_block_range;
 use jsonrpsee::http_client::HttpClientBuilder;
 use tracing_subscriber::util::SubscriberInitExt;
 
