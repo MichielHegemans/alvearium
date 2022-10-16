@@ -1,3 +1,7 @@
+mod version;
+
+pub use version::Version;
+
 use crate::block_api::get_block;
 use crate::condenser_api::transaction::BlockchainMode;
 use crate::params::EmptyObjectParams;
@@ -47,4 +51,12 @@ pub async fn get_tx_sign_properties(
             ref_block_prefix: properties.head_block_id,
         }),
     }
+}
+
+pub async fn get_version(client: &HttpClient) -> anyhow::Result<Version> {
+    let response: Version = client
+        .request("database_api.get_version", EmptyObjectParams)
+        .await?;
+
+    Ok(response)
 }
