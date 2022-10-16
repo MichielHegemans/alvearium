@@ -71,7 +71,7 @@ impl HiveEncode for () {
 
 impl HiveEncode for bool {
     fn encode<E: HiveEncoder>(&self, encoder: &mut E) -> Result<(), EncodeError> {
-        if *self { 1u8 } else { 0u8 }.encode(encoder)
+        u8::from(*self).encode(encoder)
     }
 }
 

@@ -90,7 +90,7 @@ impl UnsignedTransaction {
         // I guess recovery_id can never be larger than a u8 the code says it needs to be 0..=3
         buffer[0] = recovery_id.to_i32() as u8 + 31;
         buffer[1..].clone_from_slice(&buf);
-        let signatures = vec![hex::encode(&buffer)];
+        let signatures = vec![hex::encode(buffer)];
 
         Transaction {
             ref_block_num: self.ref_block_num,
