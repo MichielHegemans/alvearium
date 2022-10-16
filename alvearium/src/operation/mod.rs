@@ -59,7 +59,7 @@ impl AssetSymbol {
     pub fn try_from_nai(nai: &str) -> Result<AssetSymbol, NaiError> {
         let symbol = match nai {
             "@@00000013" => AssetSymbol::HBD,
-            "@@00000021" => AssetSymbol::STEEM,
+            "@@00000021" => AssetSymbol::HIVE,
             "@@00000037" => AssetSymbol::VESTS,
             _ => return Err(NaiError),
         };
